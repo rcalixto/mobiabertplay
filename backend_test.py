@@ -152,6 +152,14 @@ class RadioAPITester:
         
         return self.run_test(f"Update Radio ({self.test_radio_id})", "PUT", f"radios/{self.test_radio_id}", 200, data=update_data, auth=True)
 
+    def test_delete_radio(self):
+        """Test deleting a radio (admin only)"""
+        if not self.test_radio_id:
+            print("❌ Cannot test delete - no test radio ID available")
+            return False, {}
+            
+        return self.run_test(f"Delete Radio ({self.test_radio_id})", "DELETE", f"radios/{self.test_radio_id}", 200, auth=True)
+        
     def test_get_customization(self):
         """Test getting platform customization settings"""
         return self.run_test("Get Customization Settings", "GET", "customization", 200, print_response=True)
