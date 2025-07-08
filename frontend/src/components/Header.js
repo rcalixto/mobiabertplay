@@ -2,31 +2,49 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useFavorites } from '../contexts/FavoritesContext';
+import { useCustomization } from '../contexts/CustomizationContext';
 
 const Header = () => {
   const location = useLocation();
   const { isAuthenticated, logout } = useAuth();
   const { favoritesCount } = useFavorites();
+  const { customization } = useCustomization();
 
   const isActive = (path) => {
     return location.pathname === path;
   };
 
+  const logoUrl = customization.logo_url 
+    ? `${process.env.REACT_APP_BACKEND_URL}${customization.logo_url}`
+    : null;
+
   return (
-    <header className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg">
+    <header 
+      className="text-white shadow-lg"
+      style={{ 
+        background: `linear-gradient(135deg, ${customization.colors.primary}, ${customization.colors.secondary})` 
+      }}
+    >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
             <div className="bg-white bg-opacity-20 rounded-xl p-3">
-              <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2c-4.97 0-9 4.03-9 9 0 4.17 2.84 7.67 6.69 8.69L12 22l2.31-2.31C18.16 18.67 21 15.17 21 11c0-4.97-4.03-9-9-9zm0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/>
-              </svg>
+              {logoUrl ? (
+                <img 
+                  src={logoUrl} 
+                  alt="Logo" 
+                  className="w-8 h-8 object-contain"
+                />
+              ) : (
+                <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2c-4.97 0-9 4.03-9 9 0 4.17 2.84 7.67 6.69 8.69L12 22l2.31-2.31C18.16 18.67 21 15.17 21 11c0-4.97-4.03-9-9-9zm0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/>
+                </svg>
+              )}
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-wider logo-glow">
-                <span className="text-cyan-100">mobina</span>
-                <span className="text-white">bert</span>
+                {customization.texts.platform_name}
               </h1>
               <p className="text-sm text-cyan-200 font-medium tracking-wide">PLAY</p>
             </div>
@@ -90,17 +108,35 @@ const Header = () => {
             </Link>
 
             {isAuthenticated && (
-              <button
-                onClick={logout}
-                className="px-4 py-2 rounded-lg text-cyan-100 hover:text-white hover:bg-white hover:bg-opacity-10 transition-colors"
-              >
-                <span className="flex items-center space-x-1">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                  <span>Sair</span>
-                </span>
-              </button>
+              <>
+                <Link
+                  to="/customization"
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    isActive('/customization') 
+                      ? 'bg-white bg-opacity-20 text-white' 
+                      : 'text-cyan-100 hover:text-white hover:bg-white hover:bg-opacity-10'
+                  }`}
+                >
+                  <span className="flex items-center space-x-1">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+                    </svg>
+                    <span>Customizar</span>
+                  </span>
+                </Link>
+
+                <button
+                  onClick={logout}
+                  className="px-4 py-2 rounded-lg text-cyan-100 hover:text-white hover:bg-white hover:bg-opacity-10 transition-colors"
+                >
+                  <span className="flex items-center space-x-1">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Sair</span>
+                  </span>
+                </button>
+              </>
             )}
           </nav>
         </div>
