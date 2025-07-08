@@ -154,6 +154,13 @@ export const CustomizationProvider = ({ children }) => {
         const data = await response.json();
         setCustomization(data);
         toast.success('Customização atualizada com sucesso!');
+        
+        // Trigger notification
+        const notificationsContext = window.notificationsContext;
+        if (notificationsContext) {
+          notificationsContext.notifyCustomization('Tema da plataforma foi atualizado');
+        }
+        
         return true;
       } else {
         const error = await response.json();
@@ -190,6 +197,13 @@ export const CustomizationProvider = ({ children }) => {
         const data = await response.json();
         await loadCustomization(); // Recarregar customização
         toast.success('Logo atualizado com sucesso!');
+        
+        // Trigger notification
+        const notificationsContext = window.notificationsContext;
+        if (notificationsContext) {
+          notificationsContext.notifyCustomization('Logo da plataforma foi atualizado');
+        }
+        
         return true;
       } else {
         const error = await response.json();
@@ -221,6 +235,13 @@ export const CustomizationProvider = ({ children }) => {
       if (response.ok) {
         await loadCustomization(); // Recarregar customização
         toast.success('Configurações resetadas para padrão!');
+        
+        // Trigger notification
+        const notificationsContext = window.notificationsContext;
+        if (notificationsContext) {
+          notificationsContext.notifyCustomization('Configurações resetadas para padrão');
+        }
+        
         return true;
       } else {
         const error = await response.json();

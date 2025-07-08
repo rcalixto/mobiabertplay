@@ -65,6 +65,13 @@ export const FavoritesProvider = ({ children }) => {
         dateAdded: new Date().toISOString()
       }]);
       toast.success(`${radio.nome} adicionada aos favoritos! ❤️`);
+      
+      // Trigger notification
+      const notificationsContext = window.notificationsContext;
+      if (notificationsContext) {
+        notificationsContext.notifyFavoriteUpdate(radio.nome, 'added');
+      }
+      
       return true;
     }
     return false;
@@ -75,6 +82,12 @@ export const FavoritesProvider = ({ children }) => {
     setFavorites(prev => prev.filter(fav => fav.id !== radioId));
     if (radio) {
       toast.info(`${radio.nome} removida dos favoritos`);
+      
+      // Trigger notification
+      const notificationsContext = window.notificationsContext;
+      if (notificationsContext) {
+        notificationsContext.notifyFavoriteUpdate(radio.nome, 'removed');
+      }
     }
     return true;
   };
