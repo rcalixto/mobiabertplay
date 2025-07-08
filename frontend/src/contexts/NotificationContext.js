@@ -25,17 +25,78 @@ export const NotificationProvider = ({ children }) => {
     vibrationEnabled: true
   });
 
+  // Define functions before useEffect
+  const notifyNewRadio = (radioName) => {
+    if (settings.newRadios) {
+      addNotification({
+        type: 'newRadios',
+        title: 'Nova Rádio Adicionada!',
+        message: `${radioName} foi adicionada à plataforma`,
+        icon: '📻',
+        category: 'info',
+        action: () => window.location.href = '/'
+      });
+    }
+  };
+
+  const notifyFavoriteUpdate = (radioName, action) => {
+    if (settings.favoriteUpdates) {
+      addNotification({
+        type: 'favoriteUpdates',
+        title: 'Favorito Atualizado',
+        message: `${radioName} foi ${action === 'added' ? 'adicionada aos' : 'removida dos'} favoritos`,
+        icon: action === 'added' ? '❤️' : '💔',
+        category: 'info',
+        action: () => window.location.href = '/favoritos'
+      });
+    }
+  };
+
+  const notifySystemAlert = (message, type = 'info') => {
+    if (settings.systemAlerts) {
+      addNotification({
+        type: 'systemAlerts',
+        title: 'Alerta do Sistema',
+        message: message,
+        icon: type === 'error' ? '⚠️' : 'ℹ️',
+        category: type,
+        action: () => window.location.href = '/admin'
+      });
+    }
+  };
+
+  const notifyCustomization = (message) => {
+    if (settings.systemAlerts) {
+      addNotification({
+        type: 'systemAlerts',
+        title: 'Personalização Atualizada',
+        message: message,
+        icon: '🎨',
+        category: 'success',
+        action: () => window.location.href = '/customization'
+      });
+    }
+  };
+
   useEffect(() => {
     // Load notification settings from localStorage
     const savedSettings = localStorage.getItem('notification_settings');
     if (savedSettings) {
-      setSettings(JSON.parse(savedSettings));
+      try {
+        setSettings(JSON.parse(savedSettings));
+      } catch (error) {
+        console.error('Error loading notification settings:', error);
+      }
     }
 
     // Load notifications from localStorage
     const savedNotifications = localStorage.getItem('notifications');
     if (savedNotifications) {
-      setNotifications(JSON.parse(savedNotifications));
+      try {
+        setNotifications(JSON.parse(savedNotifications));
+      } catch (error) {
+        console.error('Error loading notifications:', error);
+      }
     }
 
     // Check for permission changes
