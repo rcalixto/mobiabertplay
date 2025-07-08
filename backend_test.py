@@ -6,7 +6,7 @@ import json
 from datetime import datetime
 
 # Get the backend URL from the frontend .env file
-BACKEND_URL = "https://a4a715cc-5d19-4658-bab6-2453b972a4f6.preview.emergentagent.com"
+BACKEND_URL = "https://c5d6ee61-0e21-433f-b06e-02648f723da3.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 ADMIN_TOKEN = "admin-radio-token-2025"
 
