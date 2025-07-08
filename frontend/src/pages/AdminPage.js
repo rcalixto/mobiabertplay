@@ -206,6 +206,80 @@ const AdminPage = () => {
     });
   };
 
+  const uploadRadioLogo = async (radioId, file) => {
+    try {
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        toast.error('Apenas arquivos de imagem são permitidos (JPEG, PNG, GIF, WebP)');
+        return false;
+      }
+
+      // Validate file size (max 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        toast.error('O arquivo é muito grande. Tamanho máximo: 5MB');
+        return false;
+      }
+
+      const token = localStorage.getItem('admin_token');
+      if (!token) {
+        toast.error('Token de administrador necessário');
+        return false;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/upload/logo/${radioId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast.success('Logo da rádio atualizado com sucesso!');
+        await loadAdminData(); // Recarregar dados
+        return true;
+      } else {
+        let errorMessage = 'Erro ao fazer upload do logo';
+        try {
+          const error = await response.json();
+          errorMessage = error.detail || error.message || errorMessage;
+        } catch (e) {
+          errorMessage = response.statusText || errorMessage;
+        }
+        
+        console.error('Upload error:', response.status, errorMessage);
+        toast.error(errorMessage);
+        return false;
+      }
+    } catch (error) {
+      console.error('Erro ao fazer upload do logo:', error);
+      toast.error('Erro de conexão. Verifique sua internet e tente novamente.');
+      return false;
+    }
+  };
+
+  const handleLogoUpload = async (radioId, event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setUploadingLogo(true);
+      try {
+        await uploadRadioLogo(radioId, file);
+        // Clear the file input after upload
+        event.target.value = '';
+      } catch (error) {
+        console.error('Error uploading logo:', error);
+      } finally {
+        setUploadingLogo(false);
+      }
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="max-w-md mx-auto">
