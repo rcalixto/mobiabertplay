@@ -309,7 +309,7 @@ const CustomizationPage = () => {
                         {uploading ? 'Enviando...' : 'Escolher Arquivo'}
                       </button>
                       <p className="text-sm text-gray-500">
-                        Formatos aceitos: JPG, PNG, SVG (máx. 5MB)
+                        Formatos aceitos: JPEG, PNG, GIF, WebP (máx. 5MB)
                       </p>
                     </div>
                   </div>
