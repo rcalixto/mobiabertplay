@@ -208,9 +208,17 @@ const AdminPage = () => {
     return (
       <div className="max-w-md mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-            Área Administrativa
-          </h1>
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full mb-4">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <span className="text-cyan-600">mobina</span><span className="text-gray-900">bert</span> <span className="text-cyan-500">PLAY</span>
+            </h1>
+            <p className="text-gray-600">Área Administrativa</p>
+          </div>
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
@@ -221,7 +229,7 @@ const AdminPage = () => {
                 type="password"
                 value={loginToken}
                 onChange={(e) => setLoginToken(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                 placeholder="Digite o token de admin"
                 required
               />
@@ -230,7 +238,7 @@ const AdminPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+              className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-2 px-4 rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-colors disabled:opacity-50"
             >
               {loading ? 'Validando...' : 'Entrar'}
             </button>
@@ -238,7 +246,7 @@ const AdminPage = () => {
           
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Token padrão: <code className="bg-gray-100 px-2 py-1 rounded">admin-radio-token-2025</code>
+              Token padrão: <code className="bg-gray-100 px-2 py-1 rounded text-cyan-600">admin-radio-token-2025</code>
             </p>
           </div>
         </div>
@@ -249,14 +257,19 @@ const AdminPage = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Administração de Rádios</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">
+            <span className="text-cyan-600">mobina</span><span className="text-gray-900">bert</span> <span className="text-cyan-500">PLAY</span>
+          </h1>
+          <p className="text-gray-600 mt-1">Administração de Rádios</p>
+        </div>
         <button
           onClick={() => {
             setShowForm(true);
             setEditingRadio(null);
             resetForm();
           }}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-colors"
         >
           + Nova Rádio
         </button>
@@ -292,7 +305,7 @@ const AdminPage = () => {
                     type="text"
                     value={formData.nome}
                     onChange={(e) => handleInputChange('nome', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                     required
                   />
                 </div>
@@ -305,7 +318,7 @@ const AdminPage = () => {
                     type="url"
                     value={formData.stream_url}
                     onChange={(e) => handleInputChange('stream_url', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                     required
                   />
                 </div>
@@ -317,7 +330,7 @@ const AdminPage = () => {
                   <select
                     value={formData.genero}
                     onChange={(e) => handleInputChange('genero', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                     required
                   >
                     <option value="">Selecione um gênero</option>
@@ -336,7 +349,7 @@ const AdminPage = () => {
                   <select
                     value={formData.regiao}
                     onChange={(e) => handleInputChange('regiao', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                     required
                   >
                     <option value="">Selecione uma região</option>
@@ -356,7 +369,7 @@ const AdminPage = () => {
                     type="text"
                     value={formData.cidade}
                     onChange={(e) => handleInputChange('cidade', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                     required
                   />
                 </div>
@@ -369,7 +382,7 @@ const AdminPage = () => {
                     type="text"
                     value={formData.estado}
                     onChange={(e) => handleInputChange('estado', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                     placeholder="Ex: SP"
                     required
                   />
@@ -383,7 +396,7 @@ const AdminPage = () => {
                     type="tel"
                     value={formData.telefone}
                     onChange={(e) => handleInputChange('telefone', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                   />
                 </div>
 
@@ -395,7 +408,7 @@ const AdminPage = () => {
                     type="text"
                     value={formData.endereco}
                     onChange={(e) => handleInputChange('endereco', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                   />
                 </div>
               </div>
@@ -408,7 +421,7 @@ const AdminPage = () => {
                   value={formData.descricao}
                   onChange={(e) => handleInputChange('descricao', e.target.value)}
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                   required
                 />
               </div>
@@ -425,7 +438,7 @@ const AdminPage = () => {
                       type="url"
                       value={formData.redes_sociais.facebook}
                       onChange={(e) => handleInputChange('redes_sociais.facebook', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                     />
                   </div>
 
@@ -437,7 +450,7 @@ const AdminPage = () => {
                       type="url"
                       value={formData.redes_sociais.instagram}
                       onChange={(e) => handleInputChange('redes_sociais.instagram', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                     />
                   </div>
 
@@ -449,7 +462,7 @@ const AdminPage = () => {
                       type="url"
                       value={formData.redes_sociais.website}
                       onChange={(e) => handleInputChange('redes_sociais.website', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                     />
                   </div>
 
@@ -461,7 +474,7 @@ const AdminPage = () => {
                       type="url"
                       value={formData.redes_sociais.youtube}
                       onChange={(e) => handleInputChange('redes_sociais.youtube', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                     />
                   </div>
                 </div>
@@ -471,7 +484,7 @@ const AdminPage = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-2 px-4 rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-colors disabled:opacity-50"
                 >
                   {loading ? 'Salvando...' : 'Salvar'}
                 </button>
@@ -524,7 +537,7 @@ const AdminPage = () => {
                     <div className="text-sm font-medium text-gray-900">{radio.nome}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
                       {radio.genero}
                     </span>
                   </td>
@@ -543,7 +556,7 @@ const AdminPage = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button
                       onClick={() => handleEdit(radio)}
-                      className="text-blue-600 hover:text-blue-900 mr-4"
+                      className="text-cyan-600 hover:text-cyan-900 mr-4"
                     >
                       Editar
                     </button>
