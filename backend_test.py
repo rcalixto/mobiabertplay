@@ -3,6 +3,9 @@ import unittest
 import sys
 import os
 import json
+import io
+import base64
+from PIL import Image
 from datetime import datetime
 
 # Get the backend URL from the frontend .env file
@@ -17,11 +20,14 @@ class RadioAPITester:
         self.tests_run = 0
         self.tests_passed = 0
         self.test_radio_id = None
+        self.uploaded_logo_url = None
 
-    def run_test(self, name, method, endpoint, expected_status, data=None, auth=False, print_response=False):
+    def run_test(self, name, method, endpoint, expected_status, data=None, auth=False, print_response=False, files=None):
         """Run a single API test"""
         url = f"{self.base_url}/{endpoint}"
-        headers = {'Content-Type': 'application/json'}
+        headers = {}
+        if not files:  # Don't set Content-Type for multipart/form-data (file uploads)
+            headers['Content-Type'] = 'application/json'
         if auth:
             headers['Authorization'] = f'Bearer {self.admin_token}'
 
@@ -32,7 +38,10 @@ class RadioAPITester:
             if method == 'GET':
                 response = requests.get(url, headers=headers)
             elif method == 'POST':
-                response = requests.post(url, json=data, headers=headers)
+                if files:
+                    response = requests.post(url, files=files, headers=headers)
+                else:
+                    response = requests.post(url, json=data, headers=headers)
             elif method == 'PUT':
                 response = requests.put(url, json=data, headers=headers)
             elif method == 'DELETE':
@@ -55,6 +64,14 @@ class RadioAPITester:
         except Exception as e:
             print(f"❌ Failed - Error: {str(e)}")
             return False, {}
+            
+    def create_test_image(self, filename="test_logo.png", size=(200, 200), color=(255, 0, 0)):
+        """Create a test image for logo upload testing"""
+        img = Image.new('RGB', size, color=color)
+        img_byte_arr = io.BytesIO()
+        img.save(img_byte_arr, format='PNG')
+        img_byte_arr.seek(0)
+        return img_byte_arr.getvalue(), filename
 
     def test_api_root(self):
         """Test API root endpoint"""
