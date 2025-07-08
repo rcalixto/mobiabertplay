@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useFavorites } from '../contexts/FavoritesContext';
 
 const Header = () => {
   const location = useLocation();
   const { isAuthenticated, logout } = useAuth();
+  const { favoritesCount } = useFavorites();
 
   const isActive = (path) => {
     return location.pathname === path;
@@ -22,7 +24,7 @@ const Header = () => {
               </svg>
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-wider">
+              <h1 className="text-xl font-bold tracking-wider logo-glow">
                 <span className="text-cyan-100">mobina</span>
                 <span className="text-white">bert</span>
               </h1>
@@ -47,6 +49,27 @@ const Header = () => {
                 </svg>
                 <span>Início</span>
               </span>
+            </Link>
+
+            <Link
+              to="/favoritos"
+              className={`px-4 py-2 rounded-lg transition-colors relative ${
+                isActive('/favoritos') 
+                  ? 'bg-white bg-opacity-20 text-white' 
+                  : 'text-cyan-100 hover:text-white hover:bg-white hover:bg-opacity-10'
+              }`}
+            >
+              <span className="flex items-center space-x-1">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                <span>Favoritos</span>
+              </span>
+              {favoritesCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                  {favoritesCount > 9 ? '9+' : favoritesCount}
+                </span>
+              )}
             </Link>
 
             <Link

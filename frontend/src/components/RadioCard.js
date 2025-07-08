@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import FavoriteButton from './FavoriteButton';
 
 const RadioCard = ({ radio }) => {
   const defaultLogo = "https://via.placeholder.com/150x150/06B6D4/FFFFFF?text=📻";
@@ -9,7 +10,10 @@ const RadioCard = ({ radio }) => {
     : defaultLogo;
 
   return (
-    <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+    <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 card-hover relative">
+      {/* Favorite Button */}
+      <FavoriteButton radio={radio} variant="card" size="md" />
+      
       {/* Logo */}
       <div className="relative h-48 bg-gradient-to-br from-cyan-50 to-blue-50 flex items-center justify-center">
         <img
@@ -72,7 +76,7 @@ const RadioCard = ({ radio }) => {
         <div className="flex space-x-2">
           <Link
             to={`/radio/${radio.id}`}
-            className="flex-1 bg-cyan-500 text-white py-2 px-4 rounded-lg hover:bg-cyan-600 transition-colors text-center text-sm font-medium"
+            className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-2 px-4 rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-colors text-center text-sm font-medium play-button"
           >
             <span className="flex items-center justify-center space-x-1">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

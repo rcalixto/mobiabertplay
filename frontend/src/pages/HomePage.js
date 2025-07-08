@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { radioAPI } from '../services/api';
 import RadioCard from '../components/RadioCard';
 import SearchFilters from '../components/SearchFilters';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useFavorites } from '../contexts/FavoritesContext';
 
 const HomePage = () => {
   const [radios, setRadios] = useState([]);
@@ -21,6 +23,8 @@ const HomePage = () => {
   const [generos, setGeneros] = useState([]);
   const [regioes, setRegioes] = useState([]);
   const [stats, setStats] = useState(null);
+  
+  const { getRecentFavorites, favoritesCount } = useFavorites();
 
   useEffect(() => {
     loadInitialData();
@@ -75,12 +79,14 @@ const HomePage = () => {
     }));
   };
 
+  const recentFavorites = getRecentFavorites(3);
+
   return (
     <div className="space-y-8">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-2xl p-8 shadow-xl">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl font-bold mb-4">
+          <h1 className="text-4xl font-bold mb-4 logo-glow">
             🎧 <span className="text-cyan-100">mobina</span><span className="text-white">bert</span> <span className="text-cyan-200">PLAY</span>
           </h1>
           <p className="text-xl text-cyan-100 mb-6">
@@ -99,13 +105,38 @@ const HomePage = () => {
                 <div className="text-sm text-cyan-100">Gêneros Diferentes</div>
               </div>
               <div className="bg-white bg-opacity-20 rounded-lg p-4">
-                <div className="text-3xl font-bold">{stats.por_regiao.length}</div>
-                <div className="text-sm text-cyan-100">Regiões Cobertas</div>
+                <div className="text-3xl font-bold">{favoritesCount}</div>
+                <div className="text-sm text-cyan-100">Seus Favoritos</div>
               </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* Recent Favorites Section */}
+      {recentFavorites.length > 0 && (
+        <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center">
+              ❤️ Seus Favoritos Recentes
+            </h2>
+            <Link
+              to="/favoritos"
+              className="text-cyan-600 hover:text-cyan-700 text-sm font-medium flex items-center"
+            >
+              Ver todos ({favoritesCount})
+              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {recentFavorites.map((radio) => (
+              <RadioCard key={radio.id} radio={radio} />
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Search and Filters */}
       <SearchFilters
@@ -134,7 +165,7 @@ const HomePage = () => {
               {radios.length > 0 && (
                 <button
                   onClick={handleLoadMore}
-                  className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors"
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-colors"
                 >
                   Carregar Mais
                 </button>
@@ -169,7 +200,7 @@ const HomePage = () => {
                     cidade: '',
                     estado: ''
                   })}
-                  className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors"
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-colors"
                 >
                   Limpar Filtros
                 </button>
