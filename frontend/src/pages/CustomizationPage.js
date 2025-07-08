@@ -297,7 +297,7 @@ const CustomizationPage = () => {
                       <input
                         ref={fileInputRef}
                         type="file"
-                        accept="image/*"
+                        accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
                         onChange={handleLogoUpload}
                         className="hidden"
                       />
