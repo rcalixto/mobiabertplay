@@ -182,6 +182,20 @@ export const CustomizationProvider = ({ children }) => {
         return false;
       }
 
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        toast.error('Apenas arquivos de imagem são permitidos (JPEG, PNG, GIF, WebP)');
+        return false;
+      }
+
+      // Validate file size (max 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        toast.error('O arquivo é muito grande. Tamanho máximo: 5MB');
+        return false;
+      }
+
       const formData = new FormData();
       formData.append('file', file);
 
@@ -206,13 +220,22 @@ export const CustomizationProvider = ({ children }) => {
         
         return true;
       } else {
-        const error = await response.json();
-        toast.error(error.detail || 'Erro ao fazer upload do logo');
+        let errorMessage = 'Erro ao fazer upload do logo';
+        try {
+          const error = await response.json();
+          errorMessage = error.detail || error.message || errorMessage;
+        } catch (e) {
+          // If response is not JSON, use status text
+          errorMessage = response.statusText || errorMessage;
+        }
+        
+        console.error('Upload error:', response.status, errorMessage);
+        toast.error(errorMessage);
         return false;
       }
     } catch (error) {
       console.error('Erro ao fazer upload do logo:', error);
-      toast.error('Erro ao fazer upload do logo');
+      toast.error('Erro de conexão. Verifique sua internet e tente novamente.');
       return false;
     }
   };
