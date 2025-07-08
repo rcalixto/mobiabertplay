@@ -42,6 +42,14 @@ export const NotificationProvider = ({ children }) => {
     if (isSupported) {
       setPermission(Notification.permission);
     }
+
+    // Expose to window for other contexts
+    window.notificationsContext = {
+      notifyNewRadio,
+      notifyFavoriteUpdate,
+      notifySystemAlert,
+      notifyCustomization
+    };
   }, [isSupported]);
 
   const saveSettings = (newSettings) => {
@@ -181,47 +189,55 @@ export const NotificationProvider = ({ children }) => {
 
   // Predefined notification types
   const notifyNewRadio = (radioName) => {
-    addNotification({
-      type: 'newRadios',
-      title: 'Nova Rádio Adicionada!',
-      message: `${radioName} foi adicionada à plataforma`,
-      icon: '📻',
-      category: 'info',
-      action: () => window.location.href = '/'
-    });
+    if (settings.newRadios) {
+      addNotification({
+        type: 'newRadios',
+        title: 'Nova Rádio Adicionada!',
+        message: `${radioName} foi adicionada à plataforma`,
+        icon: '📻',
+        category: 'info',
+        action: () => window.location.href = '/'
+      });
+    }
   };
 
   const notifyFavoriteUpdate = (radioName, action) => {
-    addNotification({
-      type: 'favoriteUpdates',
-      title: 'Favorito Atualizado',
-      message: `${radioName} foi ${action === 'added' ? 'adicionada aos' : 'removida dos'} favoritos`,
-      icon: action === 'added' ? '❤️' : '💔',
-      category: 'info',
-      action: () => window.location.href = '/favoritos'
-    });
+    if (settings.favoriteUpdates) {
+      addNotification({
+        type: 'favoriteUpdates',
+        title: 'Favorito Atualizado',
+        message: `${radioName} foi ${action === 'added' ? 'adicionada aos' : 'removida dos'} favoritos`,
+        icon: action === 'added' ? '❤️' : '💔',
+        category: 'info',
+        action: () => window.location.href = '/favoritos'
+      });
+    }
   };
 
   const notifySystemAlert = (message, type = 'info') => {
-    addNotification({
-      type: 'systemAlerts',
-      title: 'Alerta do Sistema',
-      message: message,
-      icon: type === 'error' ? '⚠️' : 'ℹ️',
-      category: type,
-      action: () => window.location.href = '/admin'
-    });
+    if (settings.systemAlerts) {
+      addNotification({
+        type: 'systemAlerts',
+        title: 'Alerta do Sistema',
+        message: message,
+        icon: type === 'error' ? '⚠️' : 'ℹ️',
+        category: type,
+        action: () => window.location.href = '/admin'
+      });
+    }
   };
 
   const notifyCustomization = (message) => {
-    addNotification({
-      type: 'systemAlerts',
-      title: 'Personalização Atualizada',
-      message: message,
-      icon: '🎨',
-      category: 'success',
-      action: () => window.location.href = '/customization'
-    });
+    if (settings.systemAlerts) {
+      addNotification({
+        type: 'systemAlerts',
+        title: 'Personalização Atualizada',
+        message: message,
+        icon: '🎨',
+        category: 'success',
+        action: () => window.location.href = '/customization'
+      });
+    }
   };
 
   const value = {
