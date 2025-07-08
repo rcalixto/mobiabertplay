@@ -11,19 +11,22 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg">
+    <header className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-white bg-opacity-20 rounded-full p-2">
+          <Link to="/" className="flex items-center space-x-3">
+            <div className="bg-white bg-opacity-20 rounded-xl p-3">
               <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2c-4.97 0-9 4.03-9 9 0 4.17 2.84 7.67 6.69 8.69L12 22l2.31-2.31C18.16 18.67 21 15.17 21 11c0-4.97-4.03-9-9-9zm0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/>
               </svg>
             </div>
             <div>
-              <h1 className="text-xl font-bold">Rádios Brasil</h1>
-              <p className="text-sm text-blue-100">Sua plataforma de rádios online</p>
+              <h1 className="text-xl font-bold tracking-wider">
+                <span className="text-cyan-100">mobina</span>
+                <span className="text-white">bert</span>
+              </h1>
+              <p className="text-sm text-cyan-200 font-medium tracking-wide">PLAY</p>
             </div>
           </Link>
 
@@ -34,7 +37,7 @@ const Header = () => {
               className={`px-4 py-2 rounded-lg transition-colors ${
                 isActive('/') 
                   ? 'bg-white bg-opacity-20 text-white' 
-                  : 'text-blue-100 hover:text-white hover:bg-white hover:bg-opacity-10'
+                  : 'text-cyan-100 hover:text-white hover:bg-white hover:bg-opacity-10'
               }`}
             >
               <span className="flex items-center space-x-1">
@@ -51,7 +54,7 @@ const Header = () => {
               className={`px-4 py-2 rounded-lg transition-colors ${
                 isActive('/admin') 
                   ? 'bg-white bg-opacity-20 text-white' 
-                  : 'text-blue-100 hover:text-white hover:bg-white hover:bg-opacity-10'
+                  : 'text-cyan-100 hover:text-white hover:bg-white hover:bg-opacity-10'
               }`}
             >
               <span className="flex items-center space-x-1">
@@ -66,7 +69,7 @@ const Header = () => {
             {isAuthenticated && (
               <button
                 onClick={logout}
-                className="px-4 py-2 rounded-lg text-blue-100 hover:text-white hover:bg-white hover:bg-opacity-10 transition-colors"
+                className="px-4 py-2 rounded-lg text-cyan-100 hover:text-white hover:bg-white hover:bg-opacity-10 transition-colors"
               >
                 <span className="flex items-center space-x-1">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

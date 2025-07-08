@@ -78,12 +78,12 @@ const HomePage = () => {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl p-8 shadow-xl">
+      <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-2xl p-8 shadow-xl">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl font-bold mb-4">
-            🎧 Rádios Brasil
+            🎧 <span className="text-cyan-100">mobina</span><span className="text-white">bert</span> <span className="text-cyan-200">PLAY</span>
           </h1>
-          <p className="text-xl text-blue-100 mb-6">
+          <p className="text-xl text-cyan-100 mb-6">
             Descubra e ouça as melhores rádios do Brasil em um só lugar
           </p>
           
@@ -92,15 +92,15 @@ const HomePage = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
               <div className="bg-white bg-opacity-20 rounded-lg p-4">
                 <div className="text-3xl font-bold">{stats.total_radios}</div>
-                <div className="text-sm text-blue-100">Rádios Cadastradas</div>
+                <div className="text-sm text-cyan-100">Rádios Cadastradas</div>
               </div>
               <div className="bg-white bg-opacity-20 rounded-lg p-4">
                 <div className="text-3xl font-bold">{stats.por_genero.length}</div>
-                <div className="text-sm text-blue-100">Gêneros Diferentes</div>
+                <div className="text-sm text-cyan-100">Gêneros Diferentes</div>
               </div>
               <div className="bg-white bg-opacity-20 rounded-lg p-4">
                 <div className="text-3xl font-bold">{stats.por_regiao.length}</div>
-                <div className="text-sm text-blue-100">Regiões Cobertas</div>
+                <div className="text-sm text-cyan-100">Regiões Cobertas</div>
               </div>
             </div>
           )}
@@ -134,7 +134,7 @@ const HomePage = () => {
               {radios.length > 0 && (
                 <button
                   onClick={handleLoadMore}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors"
                 >
                   Carregar Mais
                 </button>
@@ -169,7 +169,7 @@ const HomePage = () => {
                     cidade: '',
                     estado: ''
                   })}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors"
                 >
                   Limpar Filtros
                 </button>

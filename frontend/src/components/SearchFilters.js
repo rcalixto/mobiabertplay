@@ -33,7 +33,7 @@ const SearchFilters = ({ filters, generos, regioes, onFilterChange }) => {
           placeholder="Buscar por nome, cidade ou estado..."
           value={filters.busca}
           onChange={(e) => handleInputChange('busca', e.target.value)}
-          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
         />
       </div>
 
@@ -41,7 +41,7 @@ const SearchFilters = ({ filters, generos, regioes, onFilterChange }) => {
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={() => setShowAdvanced(!showAdvanced)}
-          className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition-colors"
+          className="flex items-center space-x-2 text-cyan-600 hover:text-cyan-700 transition-colors"
         >
           <svg className={`w-5 h-5 transform transition-transform ${showAdvanced ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -73,7 +73,7 @@ const SearchFilters = ({ filters, generos, regioes, onFilterChange }) => {
             <select
               value={filters.genero}
               onChange={(e) => handleInputChange('genero', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             >
               <option value="">Todos os gêneros</option>
               {generos.map((genero) => (
@@ -92,7 +92,7 @@ const SearchFilters = ({ filters, generos, regioes, onFilterChange }) => {
             <select
               value={filters.regiao}
               onChange={(e) => handleInputChange('regiao', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             >
               <option value="">Todas as regiões</option>
               {regioes.map((regiao) => (
@@ -113,7 +113,7 @@ const SearchFilters = ({ filters, generos, regioes, onFilterChange }) => {
               placeholder="Ex: São Paulo"
               value={filters.cidade}
               onChange={(e) => handleInputChange('cidade', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             />
           </div>
 
@@ -127,7 +127,7 @@ const SearchFilters = ({ filters, generos, regioes, onFilterChange }) => {
               placeholder="Ex: SP"
               value={filters.estado}
               onChange={(e) => handleInputChange('estado', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -137,11 +137,11 @@ const SearchFilters = ({ filters, generos, regioes, onFilterChange }) => {
       {hasActiveFilters && (
         <div className="mt-4 flex flex-wrap gap-2">
           {filters.busca && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-cyan-100 text-cyan-800">
               Busca: "{filters.busca}"
               <button
                 onClick={() => handleInputChange('busca', '')}
-                className="ml-2 hover:text-blue-600"
+                className="ml-2 hover:text-cyan-600"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

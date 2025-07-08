@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const RadioCard = ({ radio }) => {
-  const defaultLogo = "https://via.placeholder.com/150x150/3B82F6/FFFFFF?text=📻";
+  const defaultLogo = "https://via.placeholder.com/150x150/06B6D4/FFFFFF?text=📻";
   
   const logoUrl = radio.logo_url 
     ? `${process.env.REACT_APP_BACKEND_URL}${radio.logo_url}`
@@ -11,7 +11,7 @@ const RadioCard = ({ radio }) => {
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
       {/* Logo */}
-      <div className="relative h-48 bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
+      <div className="relative h-48 bg-gradient-to-br from-cyan-50 to-blue-50 flex items-center justify-center">
         <img
           src={logoUrl}
           alt={`Logo ${radio.nome}`}
@@ -41,7 +41,7 @@ const RadioCard = ({ radio }) => {
 
         {/* Genre */}
         <div className="flex items-center mb-3">
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
             {radio.genero}
           </span>
         </div>
@@ -72,7 +72,7 @@ const RadioCard = ({ radio }) => {
         <div className="flex space-x-2">
           <Link
             to={`/radio/${radio.id}`}
-            className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-center text-sm font-medium"
+            className="flex-1 bg-cyan-500 text-white py-2 px-4 rounded-lg hover:bg-cyan-600 transition-colors text-center text-sm font-medium"
           >
             <span className="flex items-center justify-center space-x-1">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
