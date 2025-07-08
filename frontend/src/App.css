@@ -29,7 +29,7 @@
 }
 
 .App-link {
-    color: #61dafb;
+    color: #06B6D4;
 }
 
 @keyframes App-logo-spin {
@@ -71,7 +71,7 @@ input[type="range"]::-webkit-slider-track {
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    background: #3b82f6;
+    background: #06B6D4;
     height: 20px;
     width: 20px;
     border-radius: 50%;
@@ -86,12 +86,30 @@ input[type="range"]::-moz-range-track {
 }
 
 input[type="range"]::-moz-range-thumb {
-    background: #3b82f6;
+    background: #06B6D4;
     height: 20px;
     width: 20px;
     border-radius: 50%;
     border: none;
     cursor: pointer;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #06B6D4;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0891B2;
 }
 
 /* Toast customizations */
@@ -100,17 +118,105 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .Toastify__toast--success {
-    background-color: #10b981;
+    background: linear-gradient(135deg, #10b981, #059669);
 }
 
 .Toastify__toast--error {
-    background-color: #ef4444;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
 }
 
 .Toastify__toast--info {
-    background-color: #3b82f6;
+    background: linear-gradient(135deg, #06B6D4, #0891B2);
 }
 
 .Toastify__toast--warning {
-    background-color: #f59e0b;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+/* Mobinabert brand colors */
+.text-mobinabert-primary {
+    color: #06B6D4;
+}
+
+.bg-mobinabert-primary {
+    background-color: #06B6D4;
+}
+
+.text-mobinabert-secondary {
+    color: #0891B2;
+}
+
+.bg-mobinabert-secondary {
+    background-color: #0891B2;
+}
+
+/* Loading animation */
+@keyframes pulse-cyan {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+}
+
+.animate-pulse-cyan {
+    animation: pulse-cyan 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom gradient backgrounds */
+.bg-mobinabert-gradient {
+    background: linear-gradient(135deg, #06B6D4, #2563EB);
+}
+
+.bg-mobinabert-gradient-light {
+    background: linear-gradient(135deg, #67E8F9, #93C5FD);
+}
+
+/* Card hover effects */
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Play button special effect */
+.play-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.play-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.play-button:hover::before {
+    width: 120%;
+    height: 120%;
+}
+
+/* Mobinabert logo animation */
+@keyframes logo-glow {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(6, 182, 212, 0.6);
+    }
+}
+
+.logo-glow {
+    animation: logo-glow 3s ease-in-out infinite;
 }
