@@ -293,10 +293,43 @@ class RadioAPITester:
         self.test_get_regions()
         self.test_get_stats()
         
+        # Customization endpoints
+        self.test_get_customization()
+        self.test_update_customization()
+        self.test_verify_customization_persistence()
+        
+        # Logo upload tests
+        self.test_upload_platform_logo_without_auth()  # Should fail with 401
+        self.test_upload_platform_logo_invalid_file()  # Should fail with 400
+        self.test_upload_platform_logo_with_auth()     # Should succeed
+        
         # Admin endpoints
         self.test_create_radio()
         self.test_update_radio()
         self.test_delete_radio()
+        
+        # Print summary
+        print("\n📊 Test Summary:")
+        print(f"Tests Run: {self.tests_run}")
+        print(f"Tests Passed: {self.tests_passed}")
+        print(f"Success Rate: {(self.tests_passed / self.tests_run) * 100:.2f}%")
+        
+        return self.tests_passed == self.tests_run
+        
+    def run_customization_tests_only(self):
+        """Run only customization and logo upload tests"""
+        print("🚀 Starting Customization API Tests")
+        print(f"Base URL: {self.base_url}")
+        
+        # Customization endpoints
+        self.test_get_customization()
+        self.test_update_customization()
+        self.test_verify_customization_persistence()
+        
+        # Logo upload tests
+        self.test_upload_platform_logo_without_auth()  # Should fail with 401
+        self.test_upload_platform_logo_invalid_file()  # Should fail with 400
+        self.test_upload_platform_logo_with_auth()     # Should succeed
         
         # Print summary
         print("\n📊 Test Summary:")
