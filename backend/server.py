@@ -28,7 +28,7 @@ uploads_dir = ROOT_DIR / "uploads"
 uploads_dir.mkdir(exist_ok=True)
 
 # Create the main app
-app = FastAPI(title="Plataforma de Rádios Online", version="1.0.0")
+app = FastAPI(title="mobinabert PLAY - Plataforma de Rádios", version="1.0.0")
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
@@ -126,16 +126,49 @@ class RadioFilters(BaseModel):
     estado: Optional[str] = None
     ativo: Optional[bool] = True
 
+# Customization Models
+class ThemeColors(BaseModel):
+    primary: str = "#06B6D4"
+    secondary: str = "#0891B2"
+    accent: str = "#2563EB"
+    background: str = "#F8FAFC"
+    text: str = "#1F2937"
+
+class PlatformTexts(BaseModel):
+    platform_name: str = "mobinabert PLAY"
+    platform_slogan: str = "Descubra e ouça as melhores rádios do Brasil em um só lugar"
+    hero_title: str = "🎧 mobinabert PLAY"
+    hero_subtitle: str = "Descubra e ouça as melhores rádios do Brasil em um só lugar"
+    footer_text: str = "© 2025 mobinabert PLAY - Todos os direitos reservados"
+
+class PlatformCustomization(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    colors: ThemeColors = Field(default_factory=ThemeColors)
+    texts: PlatformTexts = Field(default_factory=PlatformTexts)
+    logo_url: Optional[str] = None
+    favicon_url: Optional[str] = None
+    theme_name: str = "default"
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    active: bool = True
+
+class CustomizationUpdate(BaseModel):
+    colors: Optional[ThemeColors] = None
+    texts: Optional[PlatformTexts] = None
+    logo_url: Optional[str] = None
+    favicon_url: Optional[str] = None
+    theme_name: Optional[str] = None
+
 # Authentication helper
 async def verify_admin_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     if credentials.credentials != ADMIN_TOKEN:
         raise HTTPException(status_code=401, detail="Token inválido")
     return credentials.credentials
 
-# Routes
+# Radio Routes
 @api_router.get("/")
 async def root():
-    return {"message": "API da Plataforma de Rádios Online", "version": "1.0.0"}
+    return {"message": "API da mobinabert PLAY - Plataforma de Rádios Online", "version": "1.0.0"}
 
 @api_router.get("/radios", response_model=List[RadioStation])
 async def get_radios(
@@ -267,6 +300,91 @@ async def upload_logo(radio_id: str, file: UploadFile = File(...), _: str = Depe
     
     return {"message": "Logo atualizado com sucesso", "logo_url": logo_url}
 
+# Customization Routes
+@api_router.get("/customization", response_model=PlatformCustomization)
+async def get_customization():
+    """Buscar configurações de customização ativas"""
+    customization = await db.customization.find_one({"active": True})
+    if not customization:
+        # Criar configuração padrão se não existir
+        default_config = PlatformCustomization()
+        await db.customization.insert_one(default_config.dict())
+        return default_config
+    return PlatformCustomization(**customization)
+
+@api_router.put("/customization", response_model=PlatformCustomization)
+async def update_customization(
+    customization_data: CustomizationUpdate, 
+    _: str = Depends(verify_admin_token)
+):
+    """Atualizar configurações de customização (requer autenticação admin)"""
+    
+    # Buscar configuração ativa
+    existing = await db.customization.find_one({"active": True})
+    if not existing:
+        # Criar nova se não existir
+        new_config = PlatformCustomization()
+        await db.customization.insert_one(new_config.dict())
+        existing = new_config.dict()
+    
+    # Atualizar campos fornecidos
+    update_data = {k: v for k, v in customization_data.dict().items() if v is not None}
+    update_data["updated_at"] = datetime.utcnow()
+    
+    if update_data:
+        await db.customization.update_one(
+            {"active": True}, 
+            {"$set": update_data}
+        )
+    
+    # Retornar configuração atualizada
+    updated_config = await db.customization.find_one({"active": True})
+    return PlatformCustomization(**updated_config)
+
+@api_router.post("/customization/logo")
+async def upload_platform_logo(
+    file: UploadFile = File(...), 
+    _: str = Depends(verify_admin_token)
+):
+    """Upload de logo da plataforma"""
+    
+    # Verificar tipo de arquivo
+    if not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="Apenas imagens são permitidas")
+    
+    # Gerar nome único para o arquivo
+    file_extension = file.filename.split(".")[-1]
+    unique_filename = f"platform_logo_{uuid.uuid4()}.{file_extension}"
+    file_path = uploads_dir / unique_filename
+    
+    # Salvar arquivo
+    async with aiofiles.open(file_path, 'wb') as out_file:
+        content = await file.read()
+        await out_file.write(content)
+    
+    # Atualizar URL do logo na configuração
+    logo_url = f"/uploads/{unique_filename}"
+    await db.customization.update_one(
+        {"active": True}, 
+        {"$set": {"logo_url": logo_url, "updated_at": datetime.utcnow()}}
+    )
+    
+    return {"message": "Logo da plataforma atualizado com sucesso", "logo_url": logo_url}
+
+@api_router.post("/customization/reset")
+async def reset_customization(_: str = Depends(verify_admin_token)):
+    """Resetar configurações para padrão"""
+    
+    # Desativar configuração atual
+    await db.customization.update_many({"active": True}, {"$set": {"active": False}})
+    
+    # Criar nova configuração padrão
+    default_config = PlatformCustomization()
+    await db.customization.insert_one(default_config.dict())
+    
+    return {"message": "Configurações resetadas para padrão", "customization": default_config}
+
+# Other Routes
 @api_router.get("/generos")
 async def get_generos():
     """Listar todos os gêneros disponíveis"""
