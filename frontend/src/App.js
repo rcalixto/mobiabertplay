@@ -8,6 +8,7 @@ import RadioDetailPage from "./pages/RadioDetailPage";
 import AdminPage from "./pages/AdminPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import CustomizationPage from "./pages/CustomizationPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
 import Header from "./components/Header";
 import { AuthProvider } from "./contexts/AuthContext";
 import { FavoritesProvider } from "./contexts/FavoritesContext";
@@ -28,6 +29,7 @@ function App() {
                   <Route path="/admin" element={<AdminPage />} />
                   <Route path="/favoritos" element={<FavoritesPage />} />
                   <Route path="/customization" element={<CustomizationPage />} />
+                  <Route path="/analytics" element={<AnalyticsPage />} />
                 </Routes>
               </main>
               <ToastContainer 
