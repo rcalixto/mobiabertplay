@@ -13,6 +13,8 @@ const AdminPage = () => {
   const [editingRadio, setEditingRadio] = useState(null);
   const [generos, setGeneros] = useState([]);
   const [regioes, setRegioes] = useState([]);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
+  const logoInputRef = useRef(null);
   const [formData, setFormData] = useState({
     nome: '',
     descricao: '',
