@@ -152,13 +152,130 @@ class RadioAPITester:
         
         return self.run_test(f"Update Radio ({self.test_radio_id})", "PUT", f"radios/{self.test_radio_id}", 200, data=update_data, auth=True)
 
-    def test_delete_radio(self):
-        """Test deleting a radio (admin only)"""
-        if not self.test_radio_id:
-            print("❌ Cannot test delete - no test radio ID available")
+    def test_get_customization(self):
+        """Test getting platform customization settings"""
+        return self.run_test("Get Customization Settings", "GET", "customization", 200, print_response=True)
+        
+    def test_update_customization(self):
+        """Test updating platform customization settings (admin only)"""
+        update_data = {
+            "colors": {
+                "primary": "#FF5733",
+                "secondary": "#33FF57",
+                "accent": "#3357FF",
+                "background": "#F5F5F5",
+                "text": "#333333"
+            },
+            "texts": {
+                "platform_name": "mobinabert PLAY Test",
+                "platform_slogan": "Testing customization API",
+                "hero_title": "🎧 mobinabert PLAY Test",
+                "hero_subtitle": "Testing customization API subtitle",
+                "footer_text": "© 2025 mobinabert PLAY Test - All rights reserved"
+            },
+            "theme_name": "test_theme"
+        }
+        
+        return self.run_test("Update Customization Settings", "PUT", "customization", 200, data=update_data, auth=True, print_response=True)
+        
+    def test_upload_platform_logo_with_auth(self):
+        """Test uploading platform logo with admin authentication"""
+        # Create a test image
+        img_data, filename = self.create_test_image()
+        
+        # Create files dictionary for requests
+        files = {'file': (filename, img_data, 'image/png')}
+        
+        # Send request with admin token
+        success, response = self.run_test(
+            "Upload Platform Logo (with auth)", 
+            "POST", 
+            "customization/logo", 
+            200, 
+            auth=True, 
+            files=files,
+            print_response=True
+        )
+        
+        if success and response:
+            self.uploaded_logo_url = response.get('logo_url')
+            print(f"Uploaded logo URL: {self.uploaded_logo_url}")
+        
+        return success, response
+        
+    def test_upload_platform_logo_without_auth(self):
+        """Test uploading platform logo without admin authentication (should fail)"""
+        # Create a test image
+        img_data, filename = self.create_test_image()
+        
+        # Create files dictionary for requests
+        files = {'file': (filename, img_data, 'image/png')}
+        
+        # Send request without admin token (should fail with 401)
+        return self.run_test(
+            "Upload Platform Logo (without auth)", 
+            "POST", 
+            "customization/logo", 
+            401, 
+            auth=False, 
+            files=files
+        )
+        
+    def test_upload_platform_logo_invalid_file(self):
+        """Test uploading invalid file type as platform logo (should fail)"""
+        # Create a text file instead of an image
+        text_data = b"This is not an image file"
+        
+        # Create files dictionary for requests
+        files = {'file': ('test.txt', text_data, 'text/plain')}
+        
+        # Send request with admin token (should fail with 400)
+        return self.run_test(
+            "Upload Platform Logo (invalid file type)", 
+            "POST", 
+            "customization/logo", 
+            400, 
+            auth=True, 
+            files=files
+        )
+        
+    def test_verify_customization_persistence(self):
+        """Test that customization changes persist in the database"""
+        # First get current customization
+        success, before = self.run_test("Get Customization Before Update", "GET", "customization", 200)
+        if not success:
             return False, {}
             
-        return self.run_test(f"Delete Radio ({self.test_radio_id})", "DELETE", f"radios/{self.test_radio_id}", 200, auth=True)
+        # Update with new values
+        update_data = {
+            "colors": {
+                "primary": "#9900CC",
+                "secondary": "#CC9900"
+            },
+            "texts": {
+                "platform_name": f"mobinabert PLAY Persistence Test {datetime.now().strftime('%H:%M:%S')}"
+            }
+        }
+        
+        success, _ = self.run_test("Update Customization for Persistence Test", "PUT", "customization", 200, data=update_data, auth=True)
+        if not success:
+            return False, {}
+            
+        # Get updated customization
+        success, after = self.run_test("Get Customization After Update", "GET", "customization", 200)
+        if not success:
+            return False, {}
+            
+        # Verify changes were applied
+        if (after.get('colors', {}).get('primary') == update_data['colors']['primary'] and
+            after.get('texts', {}).get('platform_name') == update_data['texts']['platform_name']):
+            print("✅ Customization persistence verified - changes were saved correctly")
+            return True, after
+        else:
+            print("❌ Customization persistence failed - changes were not saved correctly")
+            print(f"Expected: {update_data}")
+            print(f"Got: {after}")
+            return False, after
 
     def run_all_tests(self):
         """Run all API tests"""
