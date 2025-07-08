@@ -57,8 +57,17 @@ const CustomizationPage = () => {
     const file = event.target.files[0];
     if (file) {
       setUploading(true);
-      await uploadLogo(file);
-      setUploading(false);
+      try {
+        const success = await uploadLogo(file);
+        if (success) {
+          // Clear the file input after successful upload
+          event.target.value = '';
+        }
+      } catch (error) {
+        console.error('Error uploading logo:', error);
+      } finally {
+        setUploading(false);
+      }
     }
   };
 
