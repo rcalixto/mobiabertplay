@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useFavorites } from '../contexts/FavoritesContext';
 import { useCustomization } from '../contexts/CustomizationContext';
+import NotificationCenter from './NotificationCenter';
 
 const Header = () => {
   const location = useLocation();
@@ -106,6 +107,9 @@ const Header = () => {
                 <span>Admin</span>
               </span>
             </Link>
+
+            {/* Notification Center */}
+            <NotificationCenter />
 
             {isAuthenticated && (
               <>
