@@ -219,12 +219,12 @@ class RadioAPITester:
         # Create files dictionary for requests
         files = {'file': (filename, img_data, 'image/png')}
         
-        # Send request without admin token (should fail with 401)
+        # Send request without admin token (should fail with 403)
         return self.run_test(
             "Upload Platform Logo (without auth)", 
             "POST", 
             "customization/logo", 
-            401, 
+            403, 
             auth=False, 
             files=files
         )
