@@ -10,6 +10,7 @@ import FavoritesPage from "./pages/FavoritesPage";
 import CustomizationPage from "./pages/CustomizationPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import Header from "./components/Header";
+import PWAPrompt from "./components/PWAPrompt";
 import { AuthProvider } from "./contexts/AuthContext";
 import { FavoritesProvider } from "./contexts/FavoritesContext";
 import { CustomizationProvider } from "./contexts/CustomizationContext";
@@ -32,6 +33,7 @@ function App() {
                   <Route path="/analytics" element={<AnalyticsPage />} />
                 </Routes>
               </main>
+              <PWAPrompt />
               <ToastContainer 
                 position="top-right"
                 autoClose={3000}

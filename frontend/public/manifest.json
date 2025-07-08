@@ -1,0 +1,73 @@
+{
+  "short_name": "mobinabert PLAY",
+  "name": "mobinabert PLAY - Rádios Online do Brasil",
+  "description": "Descubra e ouça as melhores rádios do Brasil em um só lugar",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#06B6D4",
+  "background_color": "#F8FAFC",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["music", "entertainment", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshot-narrow.png", 
+      "sizes": "640x1136",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Favoritos",
+      "short_name": "Favoritos",
+      "description": "Acessar rádios favoritas",
+      "url": "/favoritos",
+      "icons": [
+        {
+          "src": "favicon.ico",
+          "sizes": "32x32"
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "short_name": "Admin",
+      "description": "Painel administrativo",
+      "url": "/admin",
+      "icons": [
+        {
+          "src": "favicon.ico",
+          "sizes": "32x32"
+        }
+      ]
+    }
+  ]
+}
