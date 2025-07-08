@@ -616,6 +616,36 @@ const AdminPage = () => {
                     <div className="text-sm font-medium text-gray-900">{radio.nome}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center space-x-2">
+                      {radio.logo_url ? (
+                        <img 
+                          src={`${process.env.REACT_APP_BACKEND_URL}${radio.logo_url}`}
+                          alt={`Logo ${radio.nome}`}
+                          className="w-12 h-12 object-contain bg-gray-100 rounded"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center">
+                          <span className="text-gray-400 text-xs">Sem logo</span>
+                        </div>
+                      )}
+                      <div className="flex flex-col">
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                          onChange={(e) => handleLogoUpload(radio.id, e)}
+                          className="hidden"
+                          id={`logo-${radio.id}`}
+                        />
+                        <label
+                          htmlFor={`logo-${radio.id}`}
+                          className="cursor-pointer text-xs text-cyan-600 hover:text-cyan-900"
+                        >
+                          {uploadingLogo ? 'Enviando...' : 'Alterar'}
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
                       {radio.genero}
                     </span>
