@@ -248,58 +248,7 @@ export const NotificationProvider = ({ children }) => {
     return notifications.filter(n => !n.read).length;
   };
 
-  // Predefined notification types
-  const notifyNewRadio = (radioName) => {
-    if (settings.newRadios) {
-      addNotification({
-        type: 'newRadios',
-        title: 'Nova Rádio Adicionada!',
-        message: `${radioName} foi adicionada à plataforma`,
-        icon: '📻',
-        category: 'info',
-        action: () => window.location.href = '/'
-      });
-    }
-  };
 
-  const notifyFavoriteUpdate = (radioName, action) => {
-    if (settings.favoriteUpdates) {
-      addNotification({
-        type: 'favoriteUpdates',
-        title: 'Favorito Atualizado',
-        message: `${radioName} foi ${action === 'added' ? 'adicionada aos' : 'removida dos'} favoritos`,
-        icon: action === 'added' ? '❤️' : '💔',
-        category: 'info',
-        action: () => window.location.href = '/favoritos'
-      });
-    }
-  };
-
-  const notifySystemAlert = (message, type = 'info') => {
-    if (settings.systemAlerts) {
-      addNotification({
-        type: 'systemAlerts',
-        title: 'Alerta do Sistema',
-        message: message,
-        icon: type === 'error' ? '⚠️' : 'ℹ️',
-        category: type,
-        action: () => window.location.href = '/admin'
-      });
-    }
-  };
-
-  const notifyCustomization = (message) => {
-    if (settings.systemAlerts) {
-      addNotification({
-        type: 'systemAlerts',
-        title: 'Personalização Atualizada',
-        message: message,
-        icon: '🎨',
-        category: 'success',
-        action: () => window.location.href = '/customization'
-      });
-    }
-  };
 
   const value = {
     notifications,
