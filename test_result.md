@@ -227,4 +227,8 @@ agent_communication:
   - agent: "main"
     message: "Fixed notification context duplicate function declarations. Frontend compiles successfully now. Need to test logo upload functionality to verify user reported issue is resolved."
   - agent: "testing"
+    message: "Tested logo upload frontend functionality - found issues with file validation and error handling during upload process"
+  - agent: "main"
+    message: "Improved logo upload functionality with better file validation, error handling, file size limits, and user feedback. Logo upload should now work correctly."
+  - agent: "testing"
     message: "Completed backend testing for Logo Upload API, Customization API, and general API health. All backend endpoints are working correctly. The logo upload API endpoint successfully accepts and stores image files with proper authentication. Customization settings can be retrieved and updated correctly. The issue with logo upload reported by the user is likely in the frontend implementation since the backend API is functioning properly."
