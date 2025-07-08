@@ -341,5 +341,11 @@ class RadioAPITester:
 
 if __name__ == "__main__":
     tester = RadioAPITester()
-    success = tester.run_all_tests()
+    
+    # Check if we should run only specific tests
+    if len(sys.argv) > 1 and sys.argv[1] == "customization":
+        success = tester.run_customization_tests_only()
+    else:
+        success = tester.run_all_tests()
+        
     sys.exit(0 if success else 1)
